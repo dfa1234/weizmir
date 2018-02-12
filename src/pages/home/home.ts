@@ -2,6 +2,10 @@ import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { MapsAPILoader } from '@agm/core';
 import {HttpClient} from "@angular/common/http";
+import {} from '@types/googlemaps';
+
+import { FormControl } from '@angular/forms';
+import { } from 'googlemaps';
 
 declare var google: any;
 
