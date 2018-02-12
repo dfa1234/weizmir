@@ -1,0 +1,61 @@
+<div class="s-header">
+
+
+  <div class="title">
+    Weizmir
+  </div>
+
+  <div class="search-bar">
+
+    <input type="text" placeholder="Departure" [(ngModel)]="request.depart" #searchElementRefDepart/>
+
+    <input type="text" placeholder="Arrival" [(ngModel)]="request.arrival" #searchElementRefDestination/>
+
+    <input type="date" class="input-date" [(ngModel)]="request.date"/>
+
+    <button (click)="sendRequest()" ion-button color="light">
+      <ion-icon name="plane" [ngClass]="{leave:leave}"></ion-icon>
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="container">
+
+  <div class="map">
+    <agm-map  [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+
+      <agm-polyline strokeColor="#010c80" >
+        <agm-polyline-point [latitude]="points.latDeparture" [longitude]="points.lonDeparture" >
+        </agm-polyline-point>
+        <agm-polyline-point [latitude]="points.latAirport1" [longitude]="points.lonAirport1" >
+        </agm-polyline-point>
+        <agm-polyline-point [latitude]="points.latAirport2" [longitude]="points.lonAirport2" >
+        </agm-polyline-point>
+        <agm-polyline-point [latitude]="points.latArrival" [longitude]="points.lonArrival" >
+        </agm-polyline-point>
+      </agm-polyline>
+
+      <agm-marker [latitude]="points.latDeparture" [longitude]="points.lonDeparture" *ngIf="points.latDeparture && points.lonDeparture"></agm-marker>
+      <agm-marker [latitude]="points.latAirport1" [longitude]="points.lonAirport1" *ngIf="points.latAirport1 && points.lonAirport1"></agm-marker>
+      <agm-marker [latitude]="points.latAirport2" [longitude]="points.lonAirport2" *ngIf="points.latAirport2 && points.lonAirport2"></agm-marker>
+      <agm-marker [latitude]="points.latArrival" [longitude]="points.lonArrival" *ngIf="points.latArrival && points.lonArrival"></agm-marker>
+    </agm-map>
+  </div>
+
+  <div class="results" *ngIf="myResponses && myResponses.length">
+    <div class="res" *ngFor="let res of myResponses" (click)="selectResponse(res.Day4.Flights[0],res)">
+      {{res.Day4.Flights[0]?.Airline.AirlineName}} {{res.Day4.Flights[0]?.DepartureAirport.IATACode}} <ion-icon name="arrow-round-forward"></ion-icon>
+      {{res.Day4.Flights[0]?.ArrivalAirport.IATACode}}
+      <br />
+      <ng-container *ngIf="res.Stops">Stops: {{res.Stops}}</ng-container>
+      <div *ngFor="let flight of res.Day4.Flights">
+        {{flight.DepartureTime}} <ion-icon name="arrow-round-forward" style="font-size: .7em"></ion-icon> {{flight.ArrivalTime}}
+        ({{flight.TotalElapsedMinutes }} min)
+      </div>
+    </div>
+  </div>
+
+</div>
