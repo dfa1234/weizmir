@@ -219,6 +219,7 @@ export class HomePage implements OnInit{
 
   leave = false;
 
+  //PARIS
   latitude = 48.8566;
   longitude = 2.3522;
   zoom = 5;
@@ -336,8 +337,7 @@ export class HomePage implements OnInit{
       return;
     }
 
-    this.points = {};
-    this.points = Object.assign(this.points,{
+    this.points = {
       latDeparture:resJson.DepartLoc.GeoLoc.Latitude,
       lonDeparture:resJson.DepartLoc.GeoLoc.Longitude,
       latAirport1:flight.DepartureAirport.Latitude,
@@ -346,7 +346,9 @@ export class HomePage implements OnInit{
       lonAirport2 : flight.ArrivalAirport.Longitude,
       latArrival:resJson.ArrivalLoc.GeoLoc.Latitude,
       lonArrival:resJson.ArrivalLoc.GeoLoc.Longitude,
-    })
+    };
 
+    this.latitude = (this.points.latAirport1 + this.points.latAirport2) /2
+    this.longitude = (this.points.lonAirport1 + this.points.lonAirport2) /2
   }
 }
