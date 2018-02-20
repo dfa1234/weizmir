@@ -74,134 +74,6 @@ interface SelectionFlight {
   "DateStr": string
 }
 
-/*
-
-  exempleDay4 = {
-		"Date": "2017-12-12T00:00:00",
-		"ExistFlight": true,
-		"Flights": [{
-			"Airline": {
-				"AirlineId": 227,
-				"AirlineCode": "TN",
-				"AirlineName": "Air Tahiti Nui",
-				"Country": "France"
-			},
-			"ArrivalAirport": {
-				"AirportId": 1382,
-				"AirportName": "Charles de Gaulle International Airport",
-				"AirportCity": "Paris",
-				"AirportCountry": "France",
-				"IATACode": "CDG",
-				"ICAOCode": null,
-				"Latitude": 49.0128,
-				"Longitude": 2.55
-			},
-			"DepartureAirport": {
-				"AirportId": 1347,
-				"AirportName": "Aix-en-Provence (BA 114) Airport",
-				"AirportCity": "Aix-les-milles",
-				"AirportCountry": "France",
-				"IATACode": "QXB",
-				"ICAOCode": null,
-				"Latitude": 43.5056,
-				"Longitude": 5.36778
-			},
-			"FlightId": 710579,
-			"carrier": "TN",
-			"FlightNum": 4825,
-			"AirlineId": 227,
-			"OperationalStartDate": "2017-10-29T00:00:00",
-			"OperationalEndDate": "2018-03-24T00:00:00",
-			"DepartureAirportId": 1347,
-			"DepartureTime": "06:29:00",
-			"DepartureUTCVariance": "+0100",
-			"ArrivalAirportId": 1382,
-			"ArrivalTime": "10:01:00",
-			"ArrivalUTCVariance": "+0100",
-			"TotalElapsedMinutes": 212,
-			"Stops": 0,
-			"stopCodes": "",
-			"Day1": true,
-			"Day2": true,
-			"Day3": true,
-			"Day4": true,
-			"Day5": true,
-			"Day6": true,
-			"Day7": true,
-			"DaysBits": 127,
-			"ArrivalDayIndicator": 0,
-			"flightDistance": "403",
-			"SSIMcodeShareCarrier": "2C!",
-			"codeshareIndicator": "0",
-			"codeshareInfo": "",
-			"Distance": 649.40648137192829
-		},
-		{
-			"Airline": {
-				"AirlineId": 227,
-				"AirlineCode": "TN",
-				"AirlineName": "Air Tahiti Nui",
-				"Country": "France"
-			},
-			"ArrivalAirport": {
-				"AirportId": 1382,
-				"AirportName": "Charles de Gaulle International Airport",
-				"AirportCity": "Paris",
-				"AirportCountry": "France",
-				"IATACode": "CDG",
-				"ICAOCode": null,
-				"Latitude": 49.0128,
-				"Longitude": 2.55
-			},
-			"DepartureAirport": {
-				"AirportId": 1347,
-				"AirportName": "Aix-en-Provence (BA 114) Airport",
-				"AirportCity": "Aix-les-milles",
-				"AirportCountry": "France",
-				"IATACode": "QXB",
-				"ICAOCode": null,
-				"Latitude": 43.5056,
-				"Longitude": 5.36778
-			},
-			"FlightId": 710584,
-			"carrier": "TN",
-			"FlightNum": 4823,
-			"AirlineId": 227,
-			"OperationalStartDate": "2017-10-29T00:00:00",
-			"OperationalEndDate": "2018-03-24T00:00:00",
-			"DepartureAirportId": 1347,
-			"DepartureTime": "17:29:00",
-			"DepartureUTCVariance": "+0100",
-			"ArrivalAirportId": 1382,
-			"ArrivalTime": "21:02:00",
-			"ArrivalUTCVariance": "+0100",
-			"TotalElapsedMinutes": 213,
-			"Stops": 0,
-			"stopCodes": "",
-			"Day1": true,
-			"Day2": true,
-			"Day3": true,
-			"Day4": true,
-			"Day5": true,
-			"Day6": true,
-			"Day7": true,
-			"DaysBits": 127,
-			"ArrivalDayIndicator": 0,
-			"flightDistance": "403",
-			"SSIMcodeShareCarrier": "2C!",
-			"codeshareIndicator": "0",
-			"codeshareInfo": "",
-			"Distance": 649.40648137192829
-		}],
-		"DateStr": "Tue 12/12"
-	};
-
-
- */
-
-
-
-
 
 @Component({
   selector: 'page-home',
@@ -236,8 +108,6 @@ export class HomePage implements OnInit{
     latArrival:null,
     lonArrival:null
   };
-
-
 
 
   @ViewChild("searchElementRefDepart")
@@ -321,8 +191,9 @@ export class HomePage implements OnInit{
       this.leave = false;
     },1000);
     //,this.request
-    
-    //this.http.post('http://localhost:1234',"{'depart':'nice','arrival': 'jerusalem'}")
+
+    console.log(this.request);
+    //this.http.post('http://localhost:1234', this.request)
     this.http.get('assets/weizmir.json')
       .subscribe(
       res => {
@@ -350,7 +221,33 @@ export class HomePage implements OnInit{
       lonArrival:resJson.ArrivalLoc.GeoLoc.Longitude,
     };
 
-    this.latitude = (this.points.latAirport1 + this.points.latAirport2) /2
-    this.longitude = (this.points.lonAirport1 + this.points.lonAirport2) /2
+    this.latitude = (this.points.latAirport1 + this.points.latAirport2) /2;
+    this.longitude = (this.points.lonAirport1 + this.points.lonAirport2) /2;
   }
+
+  sortDuration(){
+    console.log(this.myResponses);
+    this.myResponses.sort((a,b)=>{
+      return a.TotalDuration - b.TotalDuration
+    });
+    console.log(this.myResponses);
+  }
+
+  sortDistanceDeparture(){
+
+  }
+
+  sortDistanceArrival(){
+
+  }
+
+  sortCarrier(){
+
+  }
+
+  sortSameCarrier(){
+
+  }
+
+
 }

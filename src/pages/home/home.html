@@ -46,7 +46,25 @@
   </div>
 
   <div class="results" *ngIf="myResponses && myResponses.length">
+
+
+    <div class="my-buttons-sort">
+      Sort 1:
+      <button (click)="sortDuration()">Total Duration</button>
+      <button (click)="sortDistanceDeparture()">Distance airport departure</button>
+      <button (click)="sortDistanceArrival()">Distance airport arrival</button>
+      <button (click)="sortCarrier()">Carrier</button>
+      <button (click)="sortSameCarrier()">Same Carrier</button>
+    </div>
+
+
+
     <div class="res" *ngFor="let res of myResponses" (click)="selectResponse(res.ResultFlights.Flights[0],res)">
+      <ng-container *ngIf="res.searchType==1 || ( res.searchType==0 &&
+        (res.Day1.ExistFlight || res.Day2.ExistFlight || res.Day3.ExistFlight || res.Day4.ExistFlight || res.Day5.ExistFlight || res.Day6.ExistFlight || res.Day7.ExistFlight))">
+
+
+
       {{res.ResultFlights.Flights[0]?.Airline.AirlineName}}: {{res.ResultFlights.Flights[0]?.DepartureAirport.AirportCity}} ({{res.ResultFlights.Flights[0]?.DepartureAirport.IATACode}})
       <ion-icon name="arrow-round-forward"></ion-icon>
       {{res.ResultFlights.Flights[0]?.ArrivalAirport.AirportCity}} ({{res.ResultFlights.Flights[0]?.ArrivalAirport.IATACode}})
@@ -60,18 +78,19 @@
       {{res.ResultFlights.Flights[0]?.ArrivalAirport.IATACode}}-{{res.ArrivalLoc.Address}}: {{res.ArrivalAirportToArrivalLoc.RoadDistance}}
       <br /> total duration of the trip: {{res.TotalDuration}}
       <br />
-      <div style="display: flex; flex-direction: row" *ngIf="res.searchType==0">
+      <div style="display: flex; flex-direction: row;align-items: center;"  *ngIf="res.searchType==0 &&
+        (res.Day1.ExistFlight || res.Day2.ExistFlight || res.Day3.ExistFlight || res.Day4.ExistFlight || res.Day5.ExistFlight || res.Day6.ExistFlight || res.Day7.ExistFlight)">
         <div class="dateTrue" *ngIf="res.Day1.ExistFlight" > {{res.Day1.DateStr}} </div>
         <div class="dateFalse" *ngIf="!res.Day1.ExistFlight" > {{res.Day1.DateStr}} </div>
-        
+
         <div class="dateTrue" *ngIf="res.Day2.ExistFlight" > {{res.Day2.DateStr}} </div>
         <div class="dateFalse" *ngIf="!res.Day2.ExistFlight" > {{res.Day1.DateStr}} </div>
 
         <div class="dateTrue" *ngIf="res.Day3.ExistFlight" > {{res.Day3.DateStr}} </div>
         <div class="dateFalse" *ngIf="!res.Day3.ExistFlight" > {{res.Day3.DateStr}} </div>
 
-        <div class="dateTrue" style="border-style: solid; margin: 0px" *ngIf="res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
-        <div class="dateFalse" *ngIf="!res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
+        <div class="dateTrue dateMiddle" *ngIf="res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
+        <div class="dateFalse dateMiddle" *ngIf="!res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
 
         <div class="dateTrue" *ngIf="res.Day5.ExistFlight" > {{res.Day5.DateStr}} </div>
         <div class="dateFalse" *ngIf="!res.Day5.ExistFlight" > {{res.Day5.DateStr}} </div>
@@ -81,9 +100,9 @@
 
         <div class="dateTrue" *ngIf="res.Day7.ExistFlight" > {{res.Day7.DateStr}} </div>
         <div class="dateFalse" *ngIf="!res.Day7.ExistFlight" > {{res.Day7.DateStr}} </div>
-        
-      </div>
 
+      </div>
+      </ng-container>
     </div>
   </div>
 
