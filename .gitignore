@@ -29,6 +29,8 @@ plugins/android.json
 plugins/ios.json
 docs/
 www/
+package-lock.json
+*.lock
 $RECYCLE.BIN/
 
 .DS_Store
