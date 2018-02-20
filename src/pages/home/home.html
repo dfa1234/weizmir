@@ -11,7 +11,7 @@
 
     <input type="text" placeholder="Arrival" [(ngModel)]="request.arrival" #searchElementRefDestination/>
 
-    <input type="date" class="input-date" [(ngModel)]="request.date"/>
+    <input type="date" class="input-date" [(ngModel)]="request.date" />
 
     <button (click)="sendRequest()" ion-button color="light">
       <ion-icon name="plane" [ngClass]="{leave:leave}"></ion-icon>
@@ -25,16 +25,16 @@
 <div class="container">
 
   <div class="map">
-    <agm-map  [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+    <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
 
-      <agm-polyline strokeColor="#010c80" >
-        <agm-polyline-point [latitude]="points.latDeparture" [longitude]="points.lonDeparture" >
+      <agm-polyline strokeColor="#010c80" geodesic="true">
+        <agm-polyline-point [latitude]="points.latDeparture" [longitude]="points.lonDeparture">
         </agm-polyline-point>
-        <agm-polyline-point [latitude]="points.latAirport1" [longitude]="points.lonAirport1" >
+        <agm-polyline-point [latitude]="points.latAirport1" [longitude]="points.lonAirport1">
         </agm-polyline-point>
-        <agm-polyline-point [latitude]="points.latAirport2" [longitude]="points.lonAirport2" >
+        <agm-polyline-point [latitude]="points.latAirport2" [longitude]="points.lonAirport2">
         </agm-polyline-point>
-        <agm-polyline-point [latitude]="points.latArrival" [longitude]="points.lonArrival" >
+        <agm-polyline-point [latitude]="points.latArrival" [longitude]="points.lonArrival">
         </agm-polyline-point>
       </agm-polyline>
 
@@ -46,15 +46,44 @@
   </div>
 
   <div class="results" *ngIf="myResponses && myResponses.length">
-    <div class="res" *ngFor="let res of myResponses" (click)="selectResponse(res.Day4.Flights[0],res)">
-      {{res.Day4.Flights[0]?.Airline.AirlineName}} {{res.Day4.Flights[0]?.DepartureAirport.IATACode}} <ion-icon name="arrow-round-forward"></ion-icon>
-      {{res.Day4.Flights[0]?.ArrivalAirport.IATACode}}
+    <div class="res" *ngFor="let res of myResponses" (click)="selectResponse(res.ResultFlights.Flights[0],res)">
+      {{res.ResultFlights.Flights[0]?.Airline.AirlineName}}: {{res.ResultFlights.Flights[0]?.DepartureAirport.AirportCity}} ({{res.ResultFlights.Flights[0]?.DepartureAirport.IATACode}})
+      <ion-icon name="arrow-round-forward"></ion-icon>
+      {{res.ResultFlights.Flights[0]?.ArrivalAirport.AirportCity}} ({{res.ResultFlights.Flights[0]?.ArrivalAirport.IATACode}})
+      <br /> {{res.DepartLoc.Address}}-{{res.ResultFlights.Flights[0]?.DepartureAirport.IATACode}}: {{res.DepartLocToDepartAirport.RoadDistance}}
       <br />
       <ng-container *ngIf="res.Stops">Stops: {{res.Stops}}</ng-container>
-      <div *ngFor="let flight of res.Day4.Flights">
-        {{flight.DepartureTime}} <ion-icon name="arrow-round-forward" style="font-size: .7em"></ion-icon> {{flight.ArrivalTime}}
-        ({{flight.TotalElapsedMinutes }} min)
+      <div *ngFor="let flight of res.ResultFlights.Flights">
+        {{res.ResultFlights.Flights[0]?.DepartureAirport.IATACode}}-{{res.ResultFlights.Flights[0]?.ArrivalAirport.IATACode}}: {{flight.DepartureTime}}
+        <ion-icon name="arrow-round-forward" style="font-size: .7em"></ion-icon> {{flight.ArrivalTime}} ({{flight.TotalElapsedMinutes }} min)
       </div>
+      {{res.ResultFlights.Flights[0]?.ArrivalAirport.IATACode}}-{{res.ArrivalLoc.Address}}: {{res.ArrivalAirportToArrivalLoc.RoadDistance}}
+      <br /> total duration of the trip: {{res.TotalDuration}}
+      <br />
+      <div style="display: flex; flex-direction: row" *ngIf="res.searchType==0">
+        <div class="dateTrue" *ngIf="res.Day1.ExistFlight" > {{res.Day1.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day1.ExistFlight" > {{res.Day1.DateStr}} </div>
+        
+        <div class="dateTrue" *ngIf="res.Day2.ExistFlight" > {{res.Day2.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day2.ExistFlight" > {{res.Day1.DateStr}} </div>
+
+        <div class="dateTrue" *ngIf="res.Day3.ExistFlight" > {{res.Day3.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day3.ExistFlight" > {{res.Day3.DateStr}} </div>
+
+        <div class="dateTrue" style="border-style: solid; margin: 0px" *ngIf="res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day4.ExistFlight" > {{res.Day4.DateStr}} </div>
+
+        <div class="dateTrue" *ngIf="res.Day5.ExistFlight" > {{res.Day5.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day5.ExistFlight" > {{res.Day5.DateStr}} </div>
+
+        <div class="dateTrue" *ngIf="res.Day6.ExistFlight" > {{res.Day6.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day6.ExistFlight" > {{res.Day6.DateStr}} </div>
+
+        <div class="dateTrue" *ngIf="res.Day7.ExistFlight" > {{res.Day7.DateStr}} </div>
+        <div class="dateFalse" *ngIf="!res.Day7.ExistFlight" > {{res.Day7.DateStr}} </div>
+        
+      </div>
+
     </div>
   </div>
 

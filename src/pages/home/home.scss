@@ -125,9 +125,28 @@ page-home {
         border:1px solid lightgray;
         background: aliceblue;
 
+        .dateFalse
+        {
+          margin: 5px;
+          background-color: red;
+        }
+
+        .dateTrue
+        {
+          margin: 5px;
+          background-color: green;
+        }
+
         &:hover{
           box-shadow: 0 0 10px lightblue;
         }
+
+        
+
+
+        
+
+
 
       }
 

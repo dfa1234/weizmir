@@ -320,6 +320,8 @@ export class HomePage implements OnInit{
       this.leave = false;
     },1000);
     //,this.request
+    
+    //this.http.post('http://localhost:1234',"{'depart':'nice','arrival': 'jerusalem'}")
     this.http.get('assets/weizmir.json')
       .subscribe(
       res => {
